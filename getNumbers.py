@@ -1,12 +1,14 @@
 import os
 import random
-import mnist
+from keras.datasets import mnist
 import numpy as np
 
-RAW_IMAGES = mnist.train_images()/255
-RAW_LABELS = mnist.train_labels()
-TEST_IMAGES = mnist.test_images()/255
-TEST_LABELS = mnist.test_labels()
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+RAW_IMAGES = x_train / 255.0
+RAW_LABELS = y_train
+TEST_IMAGES = x_test / 255.0
+TEST_LABELS = y_test
 BANNED_INDICES = [132, 41299, 49212]
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 

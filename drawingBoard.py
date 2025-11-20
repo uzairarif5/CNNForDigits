@@ -1,12 +1,10 @@
 import numpy as np
 import tkinter as tk
-import math
 import os
 import threading
 from convolution import convGPU
 from skimage.measure import block_reduce
 from initWeightsAndBiases import inputArrSize, hiddenL1ArrSize, hiddenL2ArrSize
-import matplotlib.pyplot as plt
 
 BOARD_SIZE = 196
 drawing = np.zeros((BOARD_SIZE, BOARD_SIZE), dtype=np.float32)
@@ -54,26 +52,24 @@ def setWAndB():
   file.close()
 
 def checkNum():
-    reducedDrawing = block_reduce(drawing, block_size=7, func=np.mean)
-    for row in reducedDrawing:
-        for val in row:
-            print("#" if round(val) ==1 else "_", end=" ")
-        print()
-    #plt.imshow(reducedDrawing)
-    #plt.show()
-    (filteredImgs, matricesForPassedPixels, smallImages) = convGPU(reducedDrawing.reshape((1,28,28)), kernels1, kernels1Biases)
-    (filteredImgs2, matricesForPassedPixels2, smallImages2) = convGPU(smallImages, kernels2, kernels2Biases)
+  reducedDrawing = block_reduce(drawing, block_size=7, func=np.mean)
+  for row in reducedDrawing:
+    for val in row:
+      print("#" if round(val) ==1 else "_", end=" ")
+    print()
+  (filteredImgs, matricesForPassedPixels, smallImages) = convGPU(reducedDrawing.reshape((1,28,28)), kernels1, kernels1Biases)
+  (filteredImgs2, matricesForPassedPixels2, smallImages2) = convGPU(smallImages, kernels2, kernels2Biases)
 
-    firstArr = smallImages2.reshape((1, inputArrSize))
-    hiddenL1Arr = ((firstArr @ link12) + biases2)/inputArrSize
-    hiddenL1Arr = np.where(hiddenL1Arr<0,0.01*hiddenL1Arr,hiddenL1Arr)
-    hiddenL2Arr = ((hiddenL1Arr @ link23) + biases3)/hiddenL1ArrSize
-    hiddenL2Arr = np.where(hiddenL2Arr<0,0.01*hiddenL2Arr,hiddenL2Arr)
-    outputs = ((hiddenL2Arr @ link34) + biases4)/hiddenL2ArrSize
-    outputs = np.where(outputs<0,0.01*outputs,outputs)
+  firstArr = smallImages2.reshape((1, inputArrSize))
+  hiddenL1Arr = ((firstArr @ link12) + biases2)/inputArrSize
+  hiddenL1Arr = np.where(hiddenL1Arr<0,0.01*hiddenL1Arr,hiddenL1Arr)
+  hiddenL2Arr = ((hiddenL1Arr @ link23) + biases3)/hiddenL1ArrSize
+  hiddenL2Arr = np.where(hiddenL2Arr<0,0.01*hiddenL2Arr,hiddenL2Arr)
+  outputs = ((hiddenL2Arr @ link34) + biases4)/hiddenL2ArrSize
+  outputs = np.where(outputs<0,0.01*outputs,outputs)
 
-    print('value:', np.argmax(outputs))
-    print('outputs:', outputs)
+  print('value:', np.argmax(outputs))
+  print('outputs:', outputs)
 
 mouseClicked = False
 

@@ -2,7 +2,7 @@ import os
 import numpy as np
 from convolution import convGPU
 from getNumbers import getImagesFromMNIST
-from initWeightsAndBiases import inputArrSize, hiddenL1ArrSize, hiddenL2ArrSize
+from initWeightsAndBiases import inputArrSize
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 

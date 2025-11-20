@@ -56,6 +56,9 @@ If you want to inform my about any errors, or give me any suggestions, feel free
 
 ### Updates
 
+<u>update 8.3:</u>
+- Using keras to get the mnist dataset. The original mnist package doesn't semem to be working.
+
 <u>update 8.2:</u>
 - Added images to explain kernel stuff.
 

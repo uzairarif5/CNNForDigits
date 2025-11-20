@@ -1,4 +1,3 @@
-
 import numpy as np
 import os
 from downPool import downPoolAndReluGPUForPassedMatrix
